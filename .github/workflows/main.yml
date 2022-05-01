@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+          usedocker: "true"
+          healthcheck: ${{secrets.HEROKU_APP_URL}}
+          rollbackonhealthcheckfailed: "true"
+          delay: 10
+        env:
+          HD_TOKEN: ${{secrets.TOKEN}}
+          HD_MSG_TOKEN: ${{secrets.MSG_TOKEN}}
+          HD_TWIN_TOKEN: ${{secrets.TWIN_TOKEN}}
+          HD_MAIN_TOKEN: ${{secrets.MAIN_TOKEN}}
+          HD_CRON_ENABLE: ${{secrets.CRON_ENABLE}}
+          HD_MODULE_NAME: guild_manager
+          HD_CONFIRMATION_TOKEN: ${{secrets.CONFIRMATION_TOKEN}}
+          HD_GROUP_ID: ${{secrets.GROUP_ID}}
