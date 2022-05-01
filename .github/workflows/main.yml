@@ -18,8 +18,7 @@ jobs:
           usedocker: "true"
           healthcheck: ${{secrets.HEROKU_APP_URL}}
           rollbackonhealthcheckfailed: "true"
-          checkstring: "HWHelper Bot, use VK bot instead this"
-          delay: 15
+          delay: 10
         env:
           HD_TOKEN: ${{secrets.TOKEN}}
           HD_MSG_TOKEN: ${{secrets.MSG_TOKEN}}
