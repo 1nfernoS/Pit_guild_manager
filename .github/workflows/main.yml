@@ -22,3 +22,4 @@ jobs:
           TWIN_TOKEN: ${{secrets.TWIN_TOKEN}}
           MAIN_TOKEN: ${{secrets.MAIN_TOKEN}}
           CRON_ENABLE: ${{secrets.CRON_ENABLE}}
+          MODULE_NAME: guild_manager
