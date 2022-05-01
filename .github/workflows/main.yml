@@ -16,9 +16,6 @@ jobs:
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}} #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           usedocker: "true"
-          docker_heroku_process_type: "web"
-          healthcheck: ${{secrets.HEROKU_APP_URL}}
-          rollbackonhealthcheckfailed: "true"
         env:
           TOKEN: ${{secrets.TOKEN}}
           MSG_TOKEN: ${{secrets.MSG_TOKEN}}
