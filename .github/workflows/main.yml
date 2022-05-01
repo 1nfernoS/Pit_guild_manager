@@ -18,6 +18,8 @@ jobs:
           usedocker: "true"
           healthcheck: ${{secrets.HEROKU_APP_URL}}
           rollbackonhealthcheckfailed: "true"
+          checkstring: "HWHelper Bot, use VK bot instead this"
+          delay: 15
         env:
           HD_TOKEN: ${{secrets.TOKEN}}
           HD_MSG_TOKEN: ${{secrets.MSG_TOKEN}}
@@ -25,3 +27,5 @@ jobs:
           HD_MAIN_TOKEN: ${{secrets.MAIN_TOKEN}}
           HD_CRON_ENABLE: ${{secrets.CRON_ENABLE}}
           HD_MODULE_NAME: guild_manager
+          HD_CONFIRMATION_TOKEN: ${{secrets.CONFIRMATION_TOKEN}}
+          HD_GROUP_ID: ${{secrets.GROUP_ID}}
