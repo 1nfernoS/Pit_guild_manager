@@ -17,9 +17,9 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           usedocker: "true"
         env:
-          TOKEN: ${{secrets.TOKEN}}
-          MSG_TOKEN: ${{secrets.MSG_TOKEN}}
-          TWIN_TOKEN: ${{secrets.TWIN_TOKEN}}
-          MAIN_TOKEN: ${{secrets.MAIN_TOKEN}}
-          CRON_ENABLE: ${{secrets.CRON_ENABLE}}
-          MODULE_NAME: guild_manager
+          HD_TOKEN: ${{secrets.TOKEN}}
+          HD_MSG_TOKEN: ${{secrets.MSG_TOKEN}}
+          HD_TWIN_TOKEN: ${{secrets.TWIN_TOKEN}}
+          HD_MAIN_TOKEN: ${{secrets.MAIN_TOKEN}}
+          HD_CRON_ENABLE: ${{secrets.CRON_ENABLE}}
+          HD_MODULE_NAME: guild_manager

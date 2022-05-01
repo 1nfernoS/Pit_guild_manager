@@ -1,4 +1,4 @@
 # Run cron
-if [ "${CRON_ENABLE}" == "True" ]; then
+if [ "${HD_CRON_ENABLE}" == "True" ]; then
 crond
 fi

@@ -1,6 +1,6 @@
 import os
 
-token = os.environ.get('TOKEN')
-msg_token = os.environ.get('MSG_TOKEN')
-twin_token = os.environ.get('TWIN_TOKEN')
-main_token = os.environ.get('MAIN_TOKEN')
+token = os.environ.get('HD_TOKEN')
+msg_token = os.environ.get('HD_MSG_TOKEN')
+twin_token = os.environ.get('HD_TWIN_TOKEN')
+main_token = os.environ.get('HD_MAIN_TOKEN')
