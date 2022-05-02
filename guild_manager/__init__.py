@@ -39,9 +39,9 @@ def check_logs():
             s = ''
             for i in f.readlines():
                 s += i
-            return s
+            return make_response(s, 201)
     except FileNotFoundError:
-        return 'No logs for now'
+        return make_response('No logs for now', 202)
 
 
 @app.route('/', methods=['POST'])
