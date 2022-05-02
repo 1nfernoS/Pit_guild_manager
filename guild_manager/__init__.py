@@ -40,6 +40,18 @@ def handler():
         data = json.loads(r)
     except JSONDecodeError:
         return make_response("No data provided", 400)
+    try:
+        with open('log.txt', 'a') as f:
+            f.write(type(data))
+            f.write(': ')
+            f.write(data)
+            f.write('\n')
+    except FileNotFoundError:
+        with open('log.txt', 'x') as f:
+            f.write(type(data))
+            f.write(': ')
+            f.write(data)
+            f.write('\n')
 
         # confirmation don't send any other data
     try:
