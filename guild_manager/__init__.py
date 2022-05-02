@@ -38,6 +38,7 @@ def get_vars():
     for i in dir(settings):
         if not i.startswith('__'):
             s = s + '\n' + i + ': ' + str(getattr(settings, i))
+    return make_response(s, 201)
 
 
 @app.route('/del_logs')
