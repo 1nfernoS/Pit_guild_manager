@@ -26,6 +26,8 @@ def handler():
     except JSONDecodeError:
         return make_response("No data provided", 400)
 
+    print(r)
+
     # confirmation don't send any other data
     try:
         type_msg = data['type']
