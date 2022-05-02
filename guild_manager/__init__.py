@@ -36,7 +36,10 @@ def index():
 def check_logs():
     try:
         with open('log.txt', 'r') as f:
-            return f.readlines()
+            s = ''
+            for i in f.readlines():
+                s += i
+            return s
     except FileNotFoundError:
         return 'No logs for now'
 
