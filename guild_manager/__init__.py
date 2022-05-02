@@ -37,7 +37,7 @@ def handler():
         return settings.confirmation_token
     else:
         return type_msg
-
+'''
     try:
         obj_msg = data['object']
         group_id = data['group_id']
@@ -53,6 +53,7 @@ def handler():
         # message(data_msg)
 
     return make_response('ok', 200)
+'''
 
 
 @app.route('/check/')
