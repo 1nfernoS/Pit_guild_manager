@@ -32,6 +32,14 @@ def index():
     return '<h2>HWHelper Bot, use VK bot instead this</h2>'
 
 
+@app.route('/vars')
+def get_vars():
+    s = ''
+    for i in dir(settings):
+        if not i.startswith('__'):
+            s = s + '\n' + i + ': ' + str(getattr(settings, i))
+
+
 @app.route('/del_logs')
 def delete_logs():
     import os
