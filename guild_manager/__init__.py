@@ -22,11 +22,6 @@ sentry_sdk.init(
 app = Flask(__name__)
 
 
-@app.route('/debug-sentry')
-def trigger_error():
-    division_by_zero = 1 / 0
-
-
 @app.route('/')
 def index():
     return '<h2>HWHelper Bot, use VK bot instead this</h2>'
@@ -36,7 +31,6 @@ def index():
 def handler():
     try:
         r = request.data
-        # print(r)
         data = json.loads(r)
     except JSONDecodeError:
         return make_response("No data provided", 400)
@@ -47,8 +41,6 @@ def handler():
     except KeyError:
         return make_response("Wrong key data provided", 400)
     except TypeError:
-        # print(type(data), data, sep='\t - \t')
-        # print(format_exc(-2))
         return make_response("Wrong data provided", 402)
 
     if type_msg == 'confirmation':
@@ -65,8 +57,7 @@ def handler():
 
     if type_msg == 'message_new':
         data_msg = obj_msg['message']
-        # print(20 * '=' + '\ngoing to message\n' + 20 * '=')
-        # message(data_msg)
+        message(data_msg)
 
     return make_response('ok', 200)
 
@@ -80,6 +71,36 @@ def check():
     if r.status_code == 200:
         return '<h2>Access granted</h2>'
 
+
+def message(msg):
+    import vk
+    api = vk.API(vk.Session(), v='5.126')
+
+    text = str(msg['text'])
+    chat = int(msg['peer_id'])
+    user = int(msg['from_id'])
+    if text.startswith('/'):
+        if user == settings.creator_id:
+            if text == '/check':
+                try:
+                    msg = 'Test fine'
+                    api.messages.send(access_token=settings.user_token,
+                                      peer_id=str(chat),
+                                      random_id=0,
+                                      message=str(msg))
+                except:
+                    msg = 'Error occured, check logs'
+                    api.messages.send(access_token=settings.group_token,
+                                      peer_id=str(chat),
+                                      random_id=0,
+                                      message=str(msg))
+            if text == '/ping':
+                msg = 'All worked out Fine'
+                api.messages.send(access_token=settings.group_token,
+                                  peer_id=str(chat),
+                                  random_id=0,
+                                  message=str(msg))
+    return
 
 @app.errorhandler(500)
 def internal_error(*args):

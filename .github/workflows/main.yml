@@ -25,3 +25,5 @@ jobs:
           HD_MODULE_NAME: guild_manager
           HD_CONFIRMATION_TOKEN: ${{secrets.CONFIRMATION_TOKEN}}
           HD_GROUP_ID: ${{secrets.GROUP_ID}}
+          HD_USER_TOKEN: ${{secrets.USER_TOKEN}}
+          HD_CREATOR_ID: ${{secrets.CREATOR_ID}}
