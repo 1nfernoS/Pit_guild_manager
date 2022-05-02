@@ -6,7 +6,25 @@ from flask import Flask, request, json, make_response
 
 import settings
 
+import sentry_sdk
+from sentry_sdk.integrations.flask import FlaskIntegration
+
+sentry_sdk.init(
+    dsn="https://77f02ebae74b4a12a98f7a9596b6f03d@o1228267.ingest.sentry.io/6373973",
+    integrations=[FlaskIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0
+)
+
 app = Flask(__name__)
+
+
+@app.route('/debug-sentry')
+def trigger_error():
+    division_by_zero = 1 / 0
 
 
 @app.route('/')
@@ -37,6 +55,8 @@ def handler():
         return settings.confirmation_token
     else:
         return type_msg
+
+
 '''
     try:
         obj_msg = data['object']
