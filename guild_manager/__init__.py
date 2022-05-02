@@ -30,7 +30,7 @@ def handler():
     try:
         type_msg = data['type']
     except KeyError:
-        return make_response("Wrong data provided", 400)
+        return make_response("No data provided", 400)
     except TypeError:
         return make_response("Wrong data provided", 400)
 
