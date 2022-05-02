@@ -52,7 +52,7 @@ def handler():
     except KeyError:
         return make_response("Wrong data provided", 400)
 
-    if group_id != settings.group_id:
+    if group_id != int(settings.group_id):
         return make_response("Error: only bot have access", 403)
 
     if type_msg == 'message_new':
@@ -101,6 +101,7 @@ def message(msg):
                                   random_id=0,
                                   message=str(msg))
     return
+
 
 @app.errorhandler(500)
 def internal_error(*args):
