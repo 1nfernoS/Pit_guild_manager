@@ -32,6 +32,16 @@ def index():
     return '<h2>HWHelper Bot, use VK bot instead this</h2>'
 
 
+@app.route('/del_logs')
+def delete_logs():
+    import os
+    if os.path.exists("log.txt"):
+        os.remove("log.txt")
+        return make_response("Clear", 202)
+    else:
+        return make_response("No log file", 201)
+
+
 @app.route('/logs')
 def check_logs():
     try:
@@ -39,9 +49,9 @@ def check_logs():
             s = ''
             for i in f.readlines():
                 s += i
-            return make_response(s, 201)
     except FileNotFoundError:
-        return make_response('No logs for now', 202)
+        s = 'No logs for now'
+    return make_response(s, 201)
 
 
 @app.route('/', methods=['POST'])
@@ -52,6 +62,8 @@ def handler():
         data = json.loads(r)
     except JSONDecodeError:
         return make_response("No data provided", 400)
+
+    '''
     try:
         with open('log.txt', 'a') as f:
             f.write(str(type(data)))
@@ -64,8 +76,9 @@ def handler():
             f.write(': ')
             f.write(str(data))
             f.write('\n')
+    '''
 
-        # confirmation don't send any other data
+    # confirmation don't send any other data
     try:
         type_msg = data['type']
     except KeyError:
