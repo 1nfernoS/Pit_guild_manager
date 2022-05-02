@@ -83,8 +83,9 @@ def message(msg):
         if user == settings.creator_id:
             if text == '/check':
                 msg = 'Test fine'
+                # TODO: get chat_id
                 api.messages.send(access_token=settings.user_token,
-                                  peer_id=str(chat),
+                                  chat_id=str(266),
                                   random_id=0,
                                   message=str(msg))
             if text == '/ping':
