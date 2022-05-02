@@ -16,23 +16,22 @@ def index():
 
 @app.route('/', methods=['POST'])
 def handler():
-    """
-    Start point for pre-processing request from vk
-    :return: response('ok', 200) / confirmation token
-    """
     try:
         r = request.data
-        data = json.loads(str(r))
+        print(r)
+        data = json.loads(r)
     except JSONDecodeError:
         return make_response("No data provided", 400)
 
-    # confirmation don't send any other data
+        # confirmation don't send any other data
     try:
         type_msg = data['type']
     except KeyError:
-        return make_response("No data provided", 400)
+        return make_response("Wrong key data provided", 400)
     except TypeError:
-        return make_response("Wrong data provided", 400)
+        print(type(data), data, sep='\t - \t')
+        print(format_exc(-2))
+        return make_response("Wrong data provided", 402)
 
     if type_msg == 'confirmation':
         return settings.confirmation_token
@@ -43,12 +42,12 @@ def handler():
     except KeyError:
         return make_response("Wrong data provided", 400)
 
-    if group_id != settings.group_id:
+    if group_id != settings.GROUP_ID:
         return make_response("Error: only bot have access", 403)
 
     if type_msg == 'message_new':
         data_msg = obj_msg['message']
-        check()
+        print(20 * '=' + '\ngoing to message\n' + 20 * '=')
         # message(data_msg)
 
     return make_response('ok', 200)
