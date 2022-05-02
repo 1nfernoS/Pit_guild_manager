@@ -20,10 +20,7 @@ jobs:
           rollbackonhealthcheckfailed: "true"
           delay: 10
         env:
-          HD_TOKEN: ${{secrets.TOKEN}}
-          HD_MSG_TOKEN: ${{secrets.MSG_TOKEN}}
-          HD_TWIN_TOKEN: ${{secrets.TWIN_TOKEN}}
-          HD_MAIN_TOKEN: ${{secrets.MAIN_TOKEN}}
+          HD_GROUP_TOKEN: ${{secrets.GROUP_TOKEN}}
           HD_CRON_ENABLE: ${{secrets.CRON_ENABLE}}
           HD_MODULE_NAME: guild_manager
           HD_CONFIRMATION_TOKEN: ${{secrets.CONFIRMATION_TOKEN}}
