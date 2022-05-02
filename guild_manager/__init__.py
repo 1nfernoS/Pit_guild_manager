@@ -35,6 +35,8 @@ def handler():
 
     if type_msg == 'confirmation':
         return settings.confirmation_token
+    else:
+        return type_msg
 
     try:
         obj_msg = data['object']
