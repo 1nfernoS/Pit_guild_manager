@@ -32,37 +32,6 @@ def index():
     return '<h2>HWHelper Bot, use VK bot instead this</h2>'
 
 
-@app.route('/vars')
-def get_vars():
-    s = ''
-    for i in dir(settings):
-        if not i.startswith('__'):
-            s = s + '\n' + i + ': ' + str(getattr(settings, i))
-    return make_response(s, 201)
-
-
-@app.route('/del_logs')
-def delete_logs():
-    import os
-    if os.path.exists("log.txt"):
-        os.remove("log.txt")
-        return make_response("Clear", 202)
-    else:
-        return make_response("No log file", 201)
-
-
-@app.route('/logs')
-def check_logs():
-    try:
-        with open('log.txt', 'r') as f:
-            s = ''
-            for i in f.readlines():
-                s += i
-    except FileNotFoundError:
-        s = 'No logs for now'
-    return make_response(s, 201)
-
-
 @app.route('/', methods=['POST'])
 def handler():
     try:
@@ -71,21 +40,6 @@ def handler():
         data = json.loads(r)
     except JSONDecodeError:
         return make_response("No data provided", 400)
-
-    '''
-    try:
-        with open('log.txt', 'a') as f:
-            f.write(str(type(data)))
-            f.write(': ')
-            f.write(str(data))
-            f.write('\n')
-    except FileNotFoundError:
-        with open('log.txt', 'x') as f:
-            f.write(str(type(data)))
-            f.write(': ')
-            f.write(str(data))
-            f.write('\n')
-    '''
 
     # confirmation don't send any other data
     try:
