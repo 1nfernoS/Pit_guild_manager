@@ -87,12 +87,12 @@ def message(msg):
                                   peer_id=str(chat),
                                   random_id=0,
                                   message=str(msg))
-                if text == '/ping':
-                    msg = 'All worked out Fine'
-                    api.messages.send(access_token=settings.group_token,
-                                      peer_id=str(chat),
-                                      random_id=0,
-                                      message=str(msg))
+            if text == '/ping':
+                msg = 'All worked out Fine'
+                api.messages.send(access_token=settings.group_token,
+                                  peer_id=str(chat),
+                                  random_id=0,
+                                  message=str(msg))
     return
 
 
