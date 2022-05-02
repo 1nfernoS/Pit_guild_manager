@@ -26,18 +26,15 @@ def handler():
     except JSONDecodeError:
         return make_response("No data provided", 400)
 
-    print(r)
-
     # confirmation don't send any other data
     try:
         type_msg = data['type']
-        group_id = data['group_id']
     except KeyError:
         return make_response("Wrong data provided", 400)
     except TypeError:
         return make_response("Wrong data provided", 400)
 
-    if type_msg == 'confirmation' and group_id == settings.group_id:
+    if type_msg == 'confirmation':
         return settings.confirmation_token
 
     try:
