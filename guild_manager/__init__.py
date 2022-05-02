@@ -52,12 +52,8 @@ def handler():
         return make_response("Wrong data provided", 402)
 
     if type_msg == 'confirmation':
-        return make_response('Fine', 200)
-    else:
-        return make_response('Not Fine', 200)
+        return make_response(settings.confirmation_token, 200)
 
-
-'''
     try:
         obj_msg = data['object']
         group_id = data['group_id']
@@ -73,7 +69,6 @@ def handler():
         # message(data_msg)
 
     return make_response('ok', 200)
-'''
 
 
 @app.route('/check/')
