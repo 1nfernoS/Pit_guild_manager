@@ -52,7 +52,7 @@ def handler():
     except KeyError:
         return make_response("Wrong data provided", 400)
 
-    if group_id != int(settings.group_id):
+    if group_id != settings.group_id:
         return make_response("Error: only bot have access", 403)
 
     if type_msg == 'message_new':
@@ -82,24 +82,17 @@ def message(msg):
     if text.startswith('/'):
         if user == settings.creator_id:
             if text == '/check':
-                try:
-                    msg = 'Test fine'
-                    api.messages.send(access_token=settings.user_token,
-                                      peer_id=str(chat),
-                                      random_id=0,
-                                      message=str(msg))
-                except:
-                    msg = 'Error occured, check logs'
+                msg = 'Test fine'
+                api.messages.send(access_token=settings.user_token,
+                                  peer_id=str(chat),
+                                  random_id=0,
+                                  message=str(msg))
+                if text == '/ping':
+                    msg = 'All worked out Fine'
                     api.messages.send(access_token=settings.group_token,
                                       peer_id=str(chat),
                                       random_id=0,
                                       message=str(msg))
-            if text == '/ping':
-                msg = 'All worked out Fine'
-                api.messages.send(access_token=settings.group_token,
-                                  peer_id=str(chat),
-                                  random_id=0,
-                                  message=str(msg))
     return
 
 
