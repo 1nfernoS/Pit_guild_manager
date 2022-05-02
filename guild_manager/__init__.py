@@ -18,7 +18,7 @@ def index():
 def handler():
     try:
         r = request.data
-        print(r)
+        # print(r)
         data = json.loads(r)
     except JSONDecodeError:
         return make_response("No data provided", 400)
@@ -29,8 +29,8 @@ def handler():
     except KeyError:
         return make_response("Wrong key data provided", 400)
     except TypeError:
-        print(type(data), data, sep='\t - \t')
-        print(format_exc(-2))
+        # print(type(data), data, sep='\t - \t')
+        # print(format_exc(-2))
         return make_response("Wrong data provided", 402)
 
     if type_msg == 'confirmation':
@@ -42,12 +42,12 @@ def handler():
     except KeyError:
         return make_response("Wrong data provided", 400)
 
-    if group_id != settings.GROUP_ID:
+    if group_id != settings.group_id:
         return make_response("Error: only bot have access", 403)
 
     if type_msg == 'message_new':
         data_msg = obj_msg['message']
-        print(20 * '=' + '\ngoing to message\n' + 20 * '=')
+        # print(20 * '=' + '\ngoing to message\n' + 20 * '=')
         # message(data_msg)
 
     return make_response('ok', 200)
