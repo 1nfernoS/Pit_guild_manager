@@ -52,9 +52,9 @@ def handler():
         return make_response("Wrong data provided", 402)
 
     if type_msg == 'confirmation':
-        return settings.confirmation_token
+        return make_response(settings.confirmation_token, 200)
     else:
-        return type_msg
+        return make_response(type_msg, 200)
 
 
 '''
