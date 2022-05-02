@@ -32,6 +32,15 @@ def index():
     return '<h2>HWHelper Bot, use VK bot instead this</h2>'
 
 
+@app.route('/logs')
+def check_logs():
+    try:
+        with open('log.txt', 'r') as f:
+            return f.readlines()
+    except FileNotFoundError:
+        return 'No logs for now'
+
+
 @app.route('/', methods=['POST'])
 def handler():
     try:

@@ -18,7 +18,7 @@ jobs:
           usedocker: "true"
           healthcheck: ${{secrets.HEROKU_APP_URL}}
           rollbackonhealthcheckfailed: "true"
-          delay: 10
+          delay: 20
         env:
           HD_GROUP_TOKEN: ${{secrets.GROUP_TOKEN}}
           HD_CRON_ENABLE: ${{secrets.CRON_ENABLE}}
