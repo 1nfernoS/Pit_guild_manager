@@ -72,6 +72,29 @@ def check():
         return '<h2>Access granted</h2>'
 
 
+def inv(url_profile):
+    # TODO: Add using for this
+    from bs4 import BeautifulSoup
+    import requests
+
+    import json
+    items = json.loads('items_list.json')
+
+    def id_tag(tag, search):
+        for j in range(len(tag.find_all('div'))):
+            if search in tag.find_all('div')[j]['class']:
+                return j
+
+    soup = BeautifulSoup(requests.get(url_profile).content, 'html.parser')
+    t1 = soup.body
+    t2 = t1.find_all('div')[id_tag(t1, 'app_user')]
+    t3 = t2.div.div
+    t4 = t3.find_all('div')[id_tag(t3, 'progress-box')]
+    t5 = t4.find_all('div')[2].div
+    for i in t5.find_all('a'):
+        print(items[i['href'][i['href'].find('id=') + 3:i['href'].find('id=') + 8]])
+
+
 def message(msg):
     import vk
     api = vk.API(vk.Session(), v='5.126')

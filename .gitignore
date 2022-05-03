@@ -5,5 +5,8 @@ venv/
 sanbox.py
 aboba.txt
 
+*.html
+*.json
+
 *.pyc
 __pycache__/
