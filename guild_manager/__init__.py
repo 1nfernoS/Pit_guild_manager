@@ -107,7 +107,7 @@ def message(msg):
     #  2. Check logs (Overseer, gold, shatters)
     #  3. DB for users (id, url profile, etc) and buffers (id, type, token, chat_id, etc)
     #  4. Pricing items?
-    #  5. CM functions (kick, punishments, announcements
+    #  5. CM functions (kick, punishments, announcements)
     #  6. Notes and stuff
     #  7. In-game assist (books, walk, questions, road cross, etc)
     '''
