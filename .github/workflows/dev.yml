@@ -16,9 +16,9 @@ jobs:
           heroku_app_name: ${{secrets.DEV_HEROKU_APP_NAME}} #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           usedocker: "true"
-          healthcheck: ${{secrets.DEV_HEROKU_APP_URL}}
-          rollbackonhealthcheckfailed: "true"
-          delay: 20
+          # healthcheck: ${{secrets.DEV_HEROKU_APP_URL}}
+          # rollbackonhealthcheckfailed: "true"
+          # delay: 20
         env:
           HD_GROUP_TOKEN: ${{secrets.DEV_GROUP_TOKEN}}
           HD_MODULE_NAME: dev_guild_manager
