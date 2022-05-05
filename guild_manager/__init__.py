@@ -55,6 +55,12 @@ def handler():
 
     return make_response('ok', 200)
 
+
+@app.route('/debug-sentry')
+def trigger_error():
+    division_by_zero = 1 / 0
+
+
 @app.errorhandler(500)
 def internal_error(*args):
     """
