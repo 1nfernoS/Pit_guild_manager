@@ -26,3 +26,4 @@ jobs:
           HD_GROUP_ID: ${{secrets.DEV_GROUP_ID}}
           HD_USER_TOKEN: ${{secrets.USER_TOKEN}}
           HD_CREATOR_ID: ${{secrets.CREATOR_ID}}
+          HD_SENTRY_URL: ${{secrets.DEV_SENTRY_URL}}
