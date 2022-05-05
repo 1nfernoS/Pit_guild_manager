@@ -23,3 +23,14 @@ def pin_msg(peer, msg, key=group_token):
         message_id=send_msg(peer, msg, token)
     )
     return
+
+
+def kick(chat, user):
+    token = group_token
+    api.messages.removeChatUser(
+        access_token=token,
+        chat_id=chat,
+        user_id=user
+    )
+    return
+

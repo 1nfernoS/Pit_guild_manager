@@ -1,30 +1,48 @@
+import guild_manager.profile_api as profile
+from guild_manager.forwards import forward
+from guild_manager.commands import command
+from guild_manager.payloads import payload
+
+import settings
+
+# TODO:
+#  1. Initialize item list (DB or smth)
+#  2. Check logs (Overseer, gold, shatters)
+#  3. DB for users (id, url profile, etc) and buffers (id, type, token, chat_id, etc)
+#  4. Pricing items?
+#  5. CM functions (kick, punishments, announcements)
+#  6. Notes and stuff
+#  7. In-game assist (books, walk, questions, road cross, etc)
+
+
 def message(msg):
+    prefix = '-'
+
     text = str(msg['text'])
     chat = int(msg['peer_id'])
     user = int(msg['from_id'])
-    # TODO:
-    #  1. Initialize item list (DB or smth)
-    #  2. Check logs (Overseer, gold, shatters)
-    #  3. DB for users (id, url profile, etc) and buffers (id, type, token, chat_id, etc)
-    #  4. Pricing items?
-    #  5. CM functions (kick, punishments, announcements)
-    #  6. Notes and stuff
-    #  7. In-game assist (books, walk, questions, road cross, etc)
-    '''
-    if text.startswith('/'):
-        if user == settings.creator_id:
-            if text == '/check':
-                msg = 'Test fine'
-                # TODO: get chat_id
-                api.messages.send(access_token=settings.user_token,
-                                  chat_id=str(266),
-                                  random_id=0,
-                                  message=str(msg))
-            if text == '/ping':
-                msg = 'All worked out Fine'
-                api.messages.send(access_token=settings.group_token,
-                                  peer_id=str(chat),
-                                  random_id=0,
-                                  message=str(msg))
-    '''
+
+    # ignore bot's messages
+    if user < 0:
+        return
+
+    if chat < settings.CONVERSATION_ADDING:
+        # profile parse
+        if 'https://vip3.activeusers.ru/app.php?' in text:
+            inv = profile.inv(text)
+            # TODO: Save equipment
+
+    if len(msg['fwd_messages']) == 1:
+        if msg['fwd_messages'][0]['from_id'] in [settings.PIT_BOT, settings.OVERSEER_BOT]:
+            forward(msg)
+        pass
+
+    if text.startswith(prefix):
+        command(msg)
+        pass
+
+    if 'payload' in msg.keys():
+        payload(msg)
+        pass
+
     return
