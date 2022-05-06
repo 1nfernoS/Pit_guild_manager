@@ -47,6 +47,7 @@ def handler():
         return make_response("Wrong data provided", 400)
 
     if group_id != settings.group_id:
+        # raise Exception(f'{group_id} != {settings.group_id}')
         return make_response("Error: only bot have access", 403)
 
     if type_msg == 'message_new':
@@ -59,6 +60,11 @@ def handler():
 @app.route('/debug-sentry')
 def trigger_error():
     division_by_zero = 1 / 0
+
+
+@app.route('/idk/how/do/you/get/there/aboba')
+def get_vars():
+    return dir(settings)
 
 
 @app.errorhandler(500)
