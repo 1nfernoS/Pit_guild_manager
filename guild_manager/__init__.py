@@ -66,6 +66,8 @@ def trigger_error():
 def get_vars():
     res = {}
     for i in dir(settings):
+        if i == 'items' or i.startswith('__'):
+            continue
         res[i] = getattr(settings, i, None)
     return str(res)
 

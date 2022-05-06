@@ -1,6 +1,7 @@
 from vk import Session, API
+from vk.exceptions import VkAPIError
 
-from settings import group_token
+from settings import group_token, CONVERSATION_ADDING
 
 api = API(Session(), v='5.131')
 
@@ -27,10 +28,14 @@ def pin_msg(peer, msg, key=group_token):
 
 def kick(chat, user):
     token = group_token
-    api.messages.removeChatUser(
-        access_token=token,
-        chat_id=chat,
-        user_id=user
-    )
+    try:
+        api.messages.removeChatUser(
+            access_token=token,
+            chat_id=chat,
+            user_id=user
+        )
+        send_msg(chat+CONVERSATION_ADDING, f"Пользоваель @id{user} успешно кикнут")
+    except VkAPIError:
+        send_msg(chat+CONVERSATION_ADDING, "Ошибка при удалении пользователя")
     return
 
