@@ -64,7 +64,7 @@ def trigger_error():
 
 @app.route('/idk/how/do/you/get/there/aboba')
 def get_vars():
-    return dir(settings)
+    return str(dir(settings))
 
 
 @app.errorhandler(500)
