@@ -23,7 +23,8 @@ def kick(msg):
 
     if user:
         if msg['from_id'] == user:
-            vk_bot.send_msg(msg['peer_id'], "Кикать самого себя? Может не стоит?")
+            vk_bot.send_msg(msg['peer_id'], "Кикать самого себя? Может не стоит?",
+                            reply_to=vk_bot.get_id_msg(msg['peer_id'], msg['conversation_message_id']))
             return
         vk_bot.kick(chat, user)
     else:

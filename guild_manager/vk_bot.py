@@ -6,13 +6,23 @@ from settings import group_token, CONVERSATION_ADDING
 api = API(Session(), v='5.131')
 
 
-def send_msg(peer, msg, key=group_token):
+def get_id_msg(peer, conv_id):
+    return api.messages.getByConversationMessageId(
+        access_token=group_token,
+        peer_id=peer,
+        conversation_message_ids=[conv_id]
+    )['items'][0]['id']
+
+
+def send_msg(peer, msg, key=group_token, **kwargs):
     token = key
     return api.messages.send(
         access_token=token,
         peer_id=str(peer),
         random_id=0,
-        message=str(msg)
+        message=str(msg),
+        disable_mentions=True,
+        **kwargs
         )
 
 
