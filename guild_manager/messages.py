@@ -3,6 +3,8 @@ from guild_manager.forwards import forward
 from guild_manager.commands import command
 from guild_manager.payloads import payload
 
+# from db.tables import User, Item
+
 import settings
 
 # TODO:
@@ -16,6 +18,7 @@ import settings
 
 
 def message(msg):
+    # TODO: store prefix somewhere else, and add opportunity to change it
     prefix = '-'
 
     text = str(msg['text'])
@@ -32,6 +35,11 @@ def message(msg):
             inv = profile.inv(text)
             # TODO: Save equipment
 
+    if 'payload' in msg.keys():
+        payload(msg)
+        # payload grants that there is no reply or command
+        return
+
     if len(msg['fwd_messages']) == 1:
         if msg['fwd_messages'][0]['from_id'] in [settings.PIT_BOT, settings.OVERSEER_BOT]:
             forward(msg)
@@ -39,10 +47,6 @@ def message(msg):
 
     if text.startswith(prefix):
         command(msg)
-        pass
-
-    if 'payload' in msg.keys():
-        payload(msg)
         pass
 
     return

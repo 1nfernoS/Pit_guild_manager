@@ -27,3 +27,4 @@ jobs:
           HD_USER_TOKEN: ${{secrets.USER_TOKEN}}
           HD_CREATOR_ID: ${{secrets.CREATOR_ID}}
           HD_SENTRY_URL: ${{secrets.DEV_SENTRY_URL}}
+          HD_SQLALCHEMY_DATABASE_URI: $(heroku config:get DATABASE_URL -a pit-guild-develop)

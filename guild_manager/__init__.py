@@ -1,19 +1,44 @@
 from json import JSONDecodeError
-from flask import Flask, request, json, make_response
+from flask import request, json, make_response
+from flask import Flask
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 import settings
 from guild_manager.messages import message
+# from db.tables import DB
 
-sentry_sdk.init(
-    dsn=settings.sentry_url,
-    integrations=[FlaskIntegration()],
-    traces_sample_rate=1.0
-)
 
-app = Flask(__name__)
+def init_app():
+    """Create user bot instance"""
+
+    """Create Flask application."""
+    app = Flask(__name__, instance_relative_config=False)
+
+    app.config.from_object('settings.Config')  # configure app using the Config class defined in settings.py
+
+    # DB.init_app(app)  # initialise the database for the app
+    # DB.create_all(app=app)
+    with app.app_context():
+        # this import allows us to create the table if it does not exist
+        # from db.tables import User, Item
+        # DB.create_all()
+
+        #  Other stuff if needed
+        #  from src.users.routes import bp as users_bp
+        #  app.register_blueprint(users_bp)
+
+        sentry_sdk.init(
+            dsn=settings.sentry_url,
+            integrations=[FlaskIntegration()],
+            traces_sample_rate=1.0
+        )
+
+        return app
+
+
+app = init_app()
 
 
 @app.route('/')
@@ -60,6 +85,57 @@ def handler():
 @app.route('/debug-sentry')
 def trigger_error():
     division_by_zero = 1 / 0
+
+
+'''
+@app.route('/some-query')
+def first_user():
+    from db.tables import User
+    user = request.args.get('id', default=0, type=int)
+    res = User.query.filter_by(vk_id=user).first()
+    return str(res)
+'''
+
+'''
+@app.route('/bot_worker')
+def threads():
+    # from threading import Thread
+    print('\t\t\t', settings.user_bot)
+    try:
+        get_state = int(request.args.get('state', None))
+    except (ValueError, TypeError):
+        get_state = None
+    if get_state is not None:
+        settings.bot_worker = bool(get_state)
+
+    if settings.bot_worker:
+        from user_buy_bot import work as script
+
+        import threading
+
+        class StoppableThread(threading.Thread):
+            """Thread class with a stop() method. The thread itself has to check
+            regularly for the stopped() condition."""
+
+            def __init__(self, *args, **kwargs):
+                super(StoppableThread, self).__init__(*args, **kwargs)
+                self._stop_event = threading.Event()
+
+            def stop(self):
+                self._stop_event.set()
+
+            def stopped(self):
+                return self._stop_event.is_set()
+
+        settings.user_bot = StoppableThread(target=script)
+        settings.user_bot.start()
+        pass
+    else:
+        pass
+    print('\t\t', settings.user_bot)
+
+    return make_response('Bot status is ' + str(settings.bot_worker), 200)
+'''
 
 
 @app.route('/idk/how/do/you/get/there/aboba')

@@ -14,10 +14,12 @@ Jinja2==3.1.2
 MarkupSafe==2.1.1
 python-dotenv==0.20.0
 requests==2.27.1
-sentry-sdk==1.5.11
+sentry-sdk==1.5.12
 soupsieve==2.3.2.post1
 typing-extensions==4.2.0
 urllib3==1.26.9
 vk==2.0.2
+vk-api==11.9.8
 Werkzeug==2.1.2
 zipp==3.8.0
+# SQLAlchemy==1.4.36
