@@ -14,6 +14,46 @@ def id_tag(tag, search, skip=0):
                 return j
 
 
+def active(auth_key, user_id):
+    url = f'https://vip3.activeusers.ru/app.php?act=pages&id=620&auth_key={auth_key}&viewer_id={user_id}&group_id=182985865&api_id=7055214'
+    soup = BeautifulSoup(requests.get(url).content, 'html.parser')
+    t1 = soup.body
+    t2 = t1.find_all('div')[id_tag(t1, 'app_pages')]
+    t3 = t2.div.div.div.div
+    res_list = list()
+
+    for i in t3.find_all('li'):
+        z = list()
+        for j in i.text.split():
+            if j.endswith(':'):
+                z.append(' '.join(i.text.split()[:i.text.split().index(j) + 1]))
+            if j.isdigit():
+                z.append(int(j))
+                z.append((round((int(j) / 10) ** 0.5 * 10) + 100) / 100)
+        res_list.append(z)
+    return res_list
+
+
+def passive(auth_key, user_id):
+    url = f'https://vip3.activeusers.ru/app.php?act=pages&id=622&auth_key={auth_key}&viewer_id={user_id}&group_id=182985865&api_id=7055214'
+    soup = BeautifulSoup(requests.get(url).content, 'html.parser')
+    t1 = soup.body
+    t2 = t1.find_all('div')[id_tag(t1, 'app_pages')]
+    t3 = t2.div.div.div.div
+    res_list = list()
+
+    for i in t3.find_all('li'):
+        z = list()
+        for j in i.text.split():
+            if j.endswith(':'):
+                z.append(' '.join(i.text.split()[:i.text.split().index(j) + 1]))
+            if j.isdigit():
+                z.append(int(j))
+                z.append((round((int(j) / 10) ** 0.5 * 10) + 100) / 100)
+        res_list.append(z)
+    return res_list
+
+
 def price(item):
     url = f'https://vip3.activeusers.ru/app.php?act=item&id={item}&auth_key=5153d58b92d71bda47f1dac05afc187a&viewer_id=158154503&group_id=182985865&api_id=7055214'
     soup = BeautifulSoup(requests.get(url).content, 'html.parser')

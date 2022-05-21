@@ -3,6 +3,8 @@ from guild_manager.forwards import forward
 from guild_manager.commands import command
 from guild_manager.payloads import payload
 
+from guild_manager import vk_bot
+
 # from db.tables import User, Item
 
 import settings
@@ -29,10 +31,36 @@ def message(msg):
     if user < 0:
         return
 
+    # vk_bot.send_msg(chat, 'Сообщение получени, не от бота')
+
     if chat < settings.CONVERSATION_ADDING:
+
+        # vk_bot.send_msg(chat, 'Сообщение в лс')
         # profile parse
         if 'https://vip3.activeusers.ru/app.php?' in text:
+            # vk_bot.send_msg(chat, 'Сообщение с профилем')
+
+            s = text[text.find('act='):text.find('&group_id')]
+            auth = s[s.find('auth_key')+9:s.find('auth_key')+41]
             inv = profile.inv(text)
+            passives = profile.passive(auth, user)
+            actives = profile.active(auth, user)
+
+            answer = 'Экипировка:\n\n'
+            answer += '\n'.join([settings.items[i] for i in inv if
+                                 settings.items[i].startswith('(А)')
+                                 or settings.items[i].startswith('(П)')
+                                 or 'Адмов' in settings.items[i]])
+            vk_bot.send_msg(chat, answer)
+
+            answer = 'Активные умения:\n\n'
+            answer += '\n'.join([f'{i[0]} {i[1]} ({i[2]}%)' for i in actives])
+            vk_bot.send_msg(chat, answer)
+
+            answer = 'Пассивные умения:\n\n'
+            answer += '\n'.join([f'{i[0]} {i[1]} ({i[2]}%)' for i in passives])
+            vk_bot.send_msg(chat, answer)
+
             # TODO: Save equipment
 
     if 'payload' in msg.keys():

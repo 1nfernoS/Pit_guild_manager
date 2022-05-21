@@ -104,7 +104,7 @@ def handler():
     except KeyError:
         return make_response("Wrong data provided", 400)
 
-    if group_id != settings.group_id:
+    if int(group_id) != int(settings.group_id):
         # raise Exception(f'{group_id} != {settings.group_id}')
         return make_response("Error: only bot have access", 403)
 
