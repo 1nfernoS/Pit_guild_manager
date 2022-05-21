@@ -7,6 +7,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 import settings
 from guild_manager.messages import message
+import guild_manager.profile_api as profile
 # from db.tables import DB
 
 
@@ -44,6 +45,38 @@ app = init_app()
 @app.route('/')
 def index():
     return '<h2>Pit-guild-manager Bot, use VK bot instead this</h2>'
+
+
+@app.route('/api', methods=['POST'])
+def api_access():
+    try:
+        data = json.loads(json.loads(request.data))
+    except JSONDecodeError:
+        return make_response("No data provided", 400)
+    print(type(data))
+    print(data)
+    try:
+        act = data['action']
+    except KeyError:
+        return make_response("Wrong key data provided", 400)
+    except TypeError:
+        return make_response("Wrong data provided", 402)
+
+    if act == 'profile':
+        try:
+            key = data['user_key']
+        except (KeyError, TypeError):
+            return make_response("Wrong key data provided", 400)
+
+        try:
+            user_id = data['user_id']
+        except (KeyError, TypeError):
+            return make_response("Wrong key data provided", 400)
+        res = dict()
+        res['items'] = profile.inv(f'https://vip3.activeusers.ru/app.php?act=user&auth_key={key}&viewer_id={user_id}&group_id=182985865&api_id=7055214')
+        return json.dumps(res)
+
+    return make_response('Complete', 200)
 
 
 @app.route('/', methods=['POST'])
