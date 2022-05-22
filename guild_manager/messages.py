@@ -37,6 +37,11 @@ def message(msg):
 
         # vk_bot.send_msg(chat, 'Сообщение в лс')
         # profile parse
+        if len(msg['attachments']) != 0:
+            at = msg['attachments'][0]
+            if at['type'] == 'link':
+                if text == "":
+                    text = at['link']['url']
         if 'https://vip3.activeusers.ru/app.php?' in text:
             # vk_bot.send_msg(chat, 'Сообщение с профилем')
 
