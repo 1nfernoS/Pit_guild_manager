@@ -21,7 +21,7 @@ import settings
 
 def message(msg):
     # TODO: store prefix somewhere else, and add opportunity to change it
-    prefix = '-'
+    prefix = ['-', '+']
 
     text = str(msg['text'])
     chat = int(msg['peer_id'])
@@ -78,7 +78,7 @@ def message(msg):
             forward(msg)
         pass
 
-    if text.startswith(prefix):
+    if text[0] in prefix:
         command(msg)
         pass
 

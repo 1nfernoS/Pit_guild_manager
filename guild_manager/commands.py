@@ -1,6 +1,9 @@
 import guild_manager.vk_bot as vk_bot
 import settings
 
+import db.users as users
+from settings import items
+
 
 def command(msg):
     cmd = msg['text'].split()[0][1:]
@@ -11,8 +14,16 @@ def command(msg):
 
 def kick(msg):
     # TODO: Check role (leader, officer)
-    if msg['from_id'] != settings.creator_id:
-        return
+    if msg['from_id'] == settings.creator_id:
+        pass
+    else:
+        u = users.get_users(msg['from_id'])
+        if u == -1:
+            return
+        if u['is_leader'] or u['is_officer']:
+            pass
+        else:
+            return
 
     chat = msg['peer_id']-settings.CONVERSATION_ADDING
     user = None
@@ -32,7 +43,7 @@ def kick(msg):
 
     return
 
-'''
+
 def leader(msg):
     if msg['from_id'] != settings.creator_id:
         return
@@ -44,10 +55,17 @@ def leader(msg):
         user = msg['fwd_messages'][0]['from_id']
 
     if user:
-        pass
-        # TODO:
-        #  check is leader was set already
-        #  set leader role to user
+        if users.get_users(user) == -1:
+            vk_bot.send_msg(msg['peer_id'], f"vk.com/id{user} не зарегистрирован!")
+            return
+
+        if msg['text'].startswith('-'):
+            users.set_val(user, is_leader=False)
+            vk_bot.send_msg(msg['peer_id'], f"Теперь vk.com/id{user} больше не имеет привелегии лидера")
+
+        if msg['text'].startswith('+'):
+            users.set_val(user, is_leader=True)
+            vk_bot.send_msg(msg['peer_id'], f"Теперь vk.com/id{user} имеет привелегии лидера")
     else:
         vk_bot.send_msg(msg['peer_id'], "Перешлите или ответьте на сообщение пользователя, чтобы выдать права лидера")
     return
@@ -55,8 +73,15 @@ def leader(msg):
 
 def officer(msg):
     # TODO: give access to leader
-    if msg['from_id'] != settings.creator_id:
-        return
+    if msg['from_id'] == settings.creator_id:
+        pass
+    else:
+        u = users.get_users(msg['from_id'])
+        if u == -1:
+            return
+        if not u['is_leader']:
+            vk_bot.send_msg(msg['peer_id'], "Только лидеры и создатель могут назначать офицеров")
+            return
 
     user = None
     if 'reply_message' in msg.keys():
@@ -65,9 +90,18 @@ def officer(msg):
         user = msg['fwd_messages'][0]['from_id']
 
     if user:
-        pass
-        # TODO:
-        #  set officer role to user
+        if users.get_users(user) == -1:
+            vk_bot.send_msg(msg['peer_id'], f"vk.com/id{user} не зарегистрирован!")
+            return
+
+        if msg['text'].startswith('-'):
+            users.set_val(user, is_officer=False)
+            vk_bot.send_msg(msg['peer_id'], f"Теперь vk.com/id{user} больше не имеет привелегии офицера")
+
+        if msg['text'].startswith('+'):
+            users.set_val(user, is_officer=True)
+            vk_bot.send_msg(msg['peer_id'], f"Теперь vk.com/id{user} имеет привелегии офицера")
+
     else:
         vk_bot.send_msg(msg['peer_id'], "Перешлите или ответьте на сообщение пользователя, чтобы выдать права офицера")
     return
@@ -78,4 +112,3 @@ def help(msg):
     message = "It isn't done now . . . Wait some updates"
     vk_bot.send_msg(msg['peer_id'], message)
     return
-'''
