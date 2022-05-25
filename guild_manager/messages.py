@@ -11,6 +11,7 @@ import db.users as users
 
 import settings
 
+
 # TODO:
 #  1. Initialize item list (DB or smth)
 #  2. Check logs (Overseer, gold, shatters)
@@ -48,13 +49,14 @@ def message(msg):
             # vk_bot.send_msg(chat, 'Сообщение с профилем')
 
             s = text[text.find('act='):text.find('&group_id')]
-            auth = s[s.find('auth_key')+9:s.find('auth_key')+41]
+            auth = s[s.find('auth_key') + 9:s.find('auth_key') + 41]
             inv = profile.inv(text)
             passives = profile.passive(auth, user)
             actives = profile.active(auth, user)
             class_id = inv[0] if inv[0] != '14108' else inv[1]
             #                       ['user_id', 'auth_token', 'build', 'class_id', 'is_leader', 'is_officer']
-            users.write_users(user, {'user_id': user, 'auth_token': auth, 'build': inv, 'class_id': class_id, 'is_leader': False, 'is_officer': False})
+            users.write_users(user, {'user_id': user, 'auth_token': auth, 'build': inv, 'class_id': class_id,
+                                     'is_leader': False, 'is_officer': False})
 
             answer = ''
             answer += 'Регистрация успешна!\n'
@@ -86,9 +88,16 @@ def message(msg):
     if len(msg['fwd_messages']) == 1:
         if msg['fwd_messages'][0]['from_id'] in [settings.PIT_BOT, settings.OVERSEER_BOT]:
             forward(msg)
-        pass
+        return
 
-    if text[0] in prefix:
+    if len(text) == 0:
+        return
+
+    if 1 == 2 \
+            or text.startswith('+') \
+            or text.startswith('-') \
+            or text.startswith('/') \
+            :
         command(msg)
         pass
 

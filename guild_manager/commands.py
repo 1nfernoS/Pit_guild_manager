@@ -14,15 +14,11 @@ def command(msg):
 
 def kick(msg):
     # TODO: Check role (leader, officer)
-    if msg['from_id'] == settings.creator_id:
-        pass
-    else:
+    if msg['from_id'] != int(settings.creator_id):
         u = users.get_users(msg['from_id'])
         if u == -1:
             return
-        if u['is_leader'] or u['is_officer']:
-            pass
-        else:
+        if not u['is_leader'] and not u['is_officer']:
             return
 
     chat = msg['peer_id']-settings.CONVERSATION_ADDING
@@ -45,7 +41,7 @@ def kick(msg):
 
 
 def leader(msg):
-    if msg['from_id'] != settings.creator_id:
+    if msg['from_id'] != int(settings.creator_id):
         return
 
     user = None
@@ -55,8 +51,13 @@ def leader(msg):
         user = msg['fwd_messages'][0]['from_id']
 
     if user:
-        if users.get_users(user) == -1:
-            vk_bot.send_msg(msg['peer_id'], f"vk.com/id{user} не зарегистрирован!")
+        if msg['from_id'] == user:
+            vk_bot.send_msg(msg['peer_id'], "Cамого себя? Так не работает",
+                            reply_to=vk_bot.get_id_msg(msg['peer_id'], msg['conversation_message_id']))
+            return
+
+        if users.get_users(user) < 0:
+            vk_bot.send_msg(msg['peer_id'], f"Такой не зарегистрирован!")
             return
 
         if msg['text'].startswith('-'):
@@ -73,7 +74,7 @@ def leader(msg):
 
 def officer(msg):
     # TODO: give access to leader
-    if msg['from_id'] == settings.creator_id:
+    if msg['from_id'] == int(settings.creator_id):
         pass
     else:
         u = users.get_users(msg['from_id'])
@@ -90,8 +91,12 @@ def officer(msg):
         user = msg['fwd_messages'][0]['from_id']
 
     if user:
-        if users.get_users(user) == -1:
-            vk_bot.send_msg(msg['peer_id'], f"vk.com/id{user} не зарегистрирован!")
+        if msg['from_id'] == user:
+            vk_bot.send_msg(msg['peer_id'], "Cамого себя? Так не работает",
+                            reply_to=vk_bot.get_id_msg(msg['peer_id'], msg['conversation_message_id']))
+            return
+        if users.get_users(user) < 0:
+            vk_bot.send_msg(msg['peer_id'], f"Такой не зарегистрирован!")
             return
 
         if msg['text'].startswith('-'):
