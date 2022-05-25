@@ -56,7 +56,7 @@ def leader(msg):
                             reply_to=vk_bot.get_id_msg(msg['peer_id'], msg['conversation_message_id']))
             return
 
-        if users.get_users(user) < 0:
+        if type(users.get_users(user)) == int:
             vk_bot.send_msg(msg['peer_id'], f"Такой не зарегистрирован!")
             return
 
@@ -95,7 +95,7 @@ def officer(msg):
             vk_bot.send_msg(msg['peer_id'], "Cамого себя? Так не работает",
                             reply_to=vk_bot.get_id_msg(msg['peer_id'], msg['conversation_message_id']))
             return
-        if users.get_users(user) < 0:
+        if type(users.get_users(user)) == int:
             vk_bot.send_msg(msg['peer_id'], f"Такой не зарегистрирован!")
             return
 
