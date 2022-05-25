@@ -5,6 +5,8 @@ from guild_manager.payloads import payload
 
 from guild_manager import vk_bot
 
+import db.users as users
+
 # from db.tables import User, Item
 
 import settings
@@ -50,19 +52,27 @@ def message(msg):
             inv = profile.inv(text)
             passives = profile.passive(auth, user)
             actives = profile.active(auth, user)
+            class_id = inv[0] if inv[0] != '14108' else inv[1]
+            #                       ['user_id', 'auth_token', 'build', 'class_id', 'is_leader', 'is_officer']
+            users.write_users(user, {'user_id': user, 'auth_token': auth, 'build': inv, 'class_id': class_id, 'is_leader': False, 'is_officer': False})
 
-            answer = 'Экипировка:\n\n'
+            answer = ''
+            answer += 'Регистрация успешна!\n'
+            answer += f'Класс: {settings.items[class_id]}\n'
+            answer += 'Экипировка:\n\n'
             answer += '\n'.join([settings.items[i] for i in inv if
                                  settings.items[i].startswith('(А)')
                                  or settings.items[i].startswith('(П)')
                                  or 'Адмов' in settings.items[i]])
             vk_bot.send_msg(chat, answer)
 
-            answer = 'Активные умения:\n\n'
+            answer = ''
+            answer += 'Активные умения:\n\n'
             answer += '\n'.join([f'{i[0]} {i[1]} ({i[2]}%)' for i in actives])
             vk_bot.send_msg(chat, answer)
 
-            answer = 'Пассивные умения:\n\n'
+            answer = ''
+            answer += 'Пассивные умения:\n\n'
             answer += '\n'.join([f'{i[0]} {i[1]} ({i[2]}%)' for i in passives])
             vk_bot.send_msg(chat, answer)
 
