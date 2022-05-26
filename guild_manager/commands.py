@@ -12,8 +12,22 @@ def command(msg):
     return
 
 
+def user_list(msg):
+    if msg['from_id'] != int(settings.creator_id):
+        return
+    ul = users.get_users()
+    answer = ''
+    for u in ul:
+        answer = answer + str(u) + '\n'
+    if answer == '':
+        answer = ul
+    vk_bot.send_msg(msg['from_id'], answer)
+    if msg['peer_id'] > settings.CONVERSATION_ADDING:
+        vk_bot.send_msg(msg['peer_id'], "Отправил в личные сообщения")
+    return
+
+
 def kick(msg):
-    # TODO: Check role (leader, officer)
     if msg['from_id'] != int(settings.creator_id):
         u = users.get_users(msg['from_id'])
         if u == -1:
