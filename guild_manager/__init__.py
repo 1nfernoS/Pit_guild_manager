@@ -12,8 +12,12 @@ import guild_manager.profile_api as profile
 
 
 def init_app():
-    """Create user bot instance"""
-
+    """Create DB file instance"""
+    try:
+        with open('db/user_list', 'x') as f:
+            f.write(json.dumps(list()))
+    except FileExistsError:
+        pass
     """Create Flask application."""
     app = Flask(__name__, instance_relative_config=False)
 

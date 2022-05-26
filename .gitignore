@@ -6,6 +6,7 @@ sanbox.py
 aboba.txt
 
 test.*
+db/user_list
 
 *.pyc
 __pycache__/
