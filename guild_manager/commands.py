@@ -18,12 +18,14 @@ def user_list(msg):
     ul = users.get_users()
     answer = ''
     for u in ul:
-        answer = answer + str(u) + '\n'
+        i = list(u.items())
+        info = [': '.join([str(a) for a in i[0]]), ': '.join([str(a) for a in i[4]]), ': '.join([str(a) for a in i[5]])]
+        answer = answer + '; '.join(info) + '\n'
     if answer == '':
         answer = ul
     vk_bot.send_msg(msg['from_id'], answer)
     if msg['peer_id'] > settings.CONVERSATION_ADDING:
-        vk_bot.send_msg(msg['peer_id'], "Отправил в личные сообщения")
+        vk_bot.send_msg(msg['peer_id'], "Отправил в личные сообщения", reply_to=msg['id'])
     return
 
 
