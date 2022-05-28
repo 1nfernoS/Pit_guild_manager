@@ -15,12 +15,19 @@ def get_id_msg(peer, conv_id):
 
 
 def send_msg(peer, msg, key=group_token, **kwargs):
+    def get_image():
+        """
+        :return: with 90% chance return kitty emoji, else fox
+        """
+        from random import randint
+        return '&#128572;: ' if randint(0, 100) < 90 else '&#129418;: '
+
     token = key
     return api.messages.send(
         access_token=token,
         peer_id=str(peer),
         random_id=0,
-        message=str(msg),
+        message=get_image() + str(msg),
         disable_mentions=True,
         **kwargs
         )
