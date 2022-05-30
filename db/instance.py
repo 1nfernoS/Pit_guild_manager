@@ -1,4 +1,3 @@
-# from flask_sqlalchemy import SQLAlchemy
-
-# DB = SQLAlchemy()
-
+from sqlalchemy import create_engine
+from settings import DB_URI
+DB = create_engine(DB_URI)
