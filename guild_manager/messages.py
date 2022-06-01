@@ -7,7 +7,8 @@ from guild_manager import vk_bot
 
 import db.users as users
 
-# from db.tables import User, Item
+from db.instance import DB
+from db.tables import User, Item
 
 import settings
 
@@ -55,6 +56,9 @@ def message(msg):
             actives = profile.active(auth, user)
             class_id = inv[0] if inv[0] != '14108' else inv[1]
             #                       ['user_id', 'auth_token', 'build', 'class_id', 'is_leader', 'is_officer']
+            u = User(user, auth, str(inv), int(class_id))
+            DB.session.add(u)
+            DB.session.commit()
             users.write_users(user, {'user_id': user, 'auth_token': auth, 'build': inv, 'class_id': class_id,
                                      'is_leader': False, 'is_officer': False})
 

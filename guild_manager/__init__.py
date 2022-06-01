@@ -8,7 +8,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 import settings
 from guild_manager.messages import message
 import guild_manager.profile_api as profile
-# from db.tables import DB
+from db.instance import DB
 
 
 def init_app():
@@ -27,8 +27,8 @@ def init_app():
     # DB.create_all(app=app)
     with app.app_context():
         # this import allows us to create the table if it does not exist
-        # from db.tables import User, Item
-        # DB.create_all()
+        from db.tables import User, Item
+        DB.create_all()
 
         #  Other stuff if needed
         #  from src.users.routes import bp as users_bp
@@ -124,14 +124,13 @@ def trigger_error():
     division_by_zero = 1 / 0
 
 
-'''
 @app.route('/some-query')
 def first_user():
     from db.tables import User
     user = request.args.get('id', default=0, type=int)
     res = User.query.filter_by(vk_id=user).first()
     return str(res)
-'''
+
 
 '''
 @app.route('/bot_worker')

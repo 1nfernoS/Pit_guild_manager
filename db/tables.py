@@ -32,6 +32,14 @@ class User(DB.Model):
         self.is_leader = False
         self.is_officer = False
 
+    def set_leader(self, state: bool):
+        self.is_leader = state
+        return
+
+    def set_officer(self, state: bool):
+        self.is_officer = state
+        return
+
     def __repr__(self):
         return f"vk_id: {self.vk_id}\n" \
                f"is_active: {self.is_active}\n" \
