@@ -1,7 +1,7 @@
 import guild_manager.vk_bot as vk_bot
 import settings
 
-import db.users as users
+# import db.users as users
 from settings import items
 
 

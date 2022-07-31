@@ -22,7 +22,7 @@ def auction_price(fwd, peer):
         merc_price = int(re.findall(r'\d+', s[1])[1])  # 1 - emoji, 2  - price
         vk_bot.send_msg(peer, merc_price)
     except:
-        vk_bot.send_msg(peer, traceback.format_exc(-2))
+        # vk_bot.send_msg(peer, traceback.format_exc(-2))
         item_id = 'NULL'
         avg_price = 'NULL'
         merc_price = 'NULL'

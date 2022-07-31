@@ -1,6 +1,6 @@
-from db.instance import DB
+# from db.instance import DB
 
-
+"""
 class Item(DB.Model):
     __tablename__ = 'Items'
 
@@ -57,3 +57,4 @@ class User(DB.Model):
                f"class_id: {self.class_id}\n" \
                f"is_leader: {self.is_leader}\n" \
                f"is_officer: {self.is_officer}\n" \
+"""

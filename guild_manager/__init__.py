@@ -8,16 +8,18 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 import settings
 from guild_manager.messages import message
 import guild_manager.profile_api as profile
-from db.instance import DB
+# from db.instance import DB
 
 
 def init_app():
     """Create DB file instance"""
+    '''
     try:
         with open('db/user_list', 'x') as f:
             f.write(json.dumps(list()))
     except FileExistsError:
         pass
+    '''
     """Create Flask application."""
     app = Flask(__name__, instance_relative_config=False)
 
@@ -27,8 +29,9 @@ def init_app():
     # DB.create_all(app=app)
     with app.app_context():
         # this import allows us to create the table if it does not exist
-        from db.tables import User, Item
-        DB.create_all()
+
+        # from db.tables import User, Item
+        # DB.create_all()
 
         #  Other stuff if needed
         #  from src.users.routes import bp as users_bp
@@ -82,7 +85,7 @@ def api_access():
 
     return make_response('Complete', 200)
 
-
+'''
 @app.route('/', methods=['POST'])
 def handler():
     try:
@@ -117,7 +120,7 @@ def handler():
         message(data_msg)
 
     return make_response('ok', 200)
-
+'''
 
 @app.route('/debug-sentry')
 def trigger_error():
