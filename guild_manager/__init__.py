@@ -1,6 +1,6 @@
 from json import JSONDecodeError
 from flask import request, json, make_response
-from flask import Flask
+from flask import Flask, redirect, url_for
 
 import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
@@ -80,8 +80,22 @@ def api_access():
         except (KeyError, TypeError):
             return make_response("Wrong key data provided", 400)
         res = dict()
-        res['items'] = profile.inv(f'https://vip3.activeusers.ru/app.php?act=user&auth_key={key}&viewer_id={user_id}&group_id=182985865&api_id=7055214')
+        try:
+            res['items'] = profile.inv(f'https://vip3.activeusers.ru/app.php?act=user&auth_key={key}&viewer_id={user_id}&group_id=182985865&api_id=7055214')
+        except:
+            return make_response("Invalid user_key or user_id", 400)
         return json.dumps(res)
+
+    if act == 'price':
+        try:
+            item = data['item_id']
+        except (KeyError, TypeError):
+            return make_response("Wrong key data provided", 400)
+        try:
+            res = profile.price(item)
+        except (TypeError):
+            return '-1'
+        return json.dumps({'price': res})
 
     return make_response('Complete', 200)
 
@@ -122,17 +136,20 @@ def handler():
     return make_response('ok', 200)
 '''
 
+
 @app.route('/debug-sentry')
 def trigger_error():
     division_by_zero = 1 / 0
 
 
+'''
 @app.route('/some-query')
 def first_user():
     from db.tables import User
     user = request.args.get('id', default=0, type=int)
     res = User.query.filter_by(vk_id=user).first()
     return str(res)
+'''
 
 
 '''
@@ -196,6 +213,74 @@ def internal_error(*args):
     """
     # vk_api.send(settings.errors_chat, str(format_exc(-5)))
     return make_response('ok', 200)
+
+
+@app.route('/api', methods=['GET'])
+def go_to_docs():
+    return redirect('https://pit-guild-manager.herokuapp.com/docs', code=302)
+
+
+@app.route('/docs')
+def documentation():
+    return '''
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Documentation</title>
+</head>
+<body>
+    <h1 class="toc-header" id="pit-managers-profile-api"> Pit Manager's profile API</h1>
+    <p>First of all, you can access API via POST requests to <a class="is-external-link" href="https://pit-guild-manager.herokuapp.com/api">https://pit-guild-manager.herokuapp.com/api</a>. Other paths doesn't send any useful data. Request must be JSON String with key <strong>action</strong>, otherwise request will be rejected. The additional keys passed in the request are described in the list of commands</p>
+    <h2 class="toc-header" id="list-of-commands"> List of commands</h2>
+    <h3 class="toc-header" id="profile"> Profile</h3>
+    <p>Parameters:</p>
+    <ul>
+        <li>user_key: auth key for profile parse</li>
+    </ul>
+    <blockquote class="is-warning">
+        <p>[WARNING] Don't share this key to untrusted people, it gives full access to your profile page</p>
+    </blockquote>
+    <ul>
+        <li>user_id: user's id in VK</li>
+    </ul>
+    <br>
+    <blockquote class="is-success">
+        <p>Returns JSON list of item_id in equipment</p>
+    </blockquote>
+    <blockquote class="is-danger">
+        <p>400: Wrong key data provided<br>Means that there are not all key were provided</p>
+    </blockquote>
+    <blockquote class="is-danger">
+        <p>400: Invalid user_key or user_id<br>Means that was provided incorrect user_key or user_id</p>
+    </blockquote>
+    <h4 class="toc-header" id="example"> Example</h4>
+    <pre v-pre="true" class="prismjs line-numbers">
+        <code class="language-">&gt;&gt;&gt; {'action':'profile', 'user_key':'123eaf231', 'user_id':0}<br>        &lt;&lt;&lt; {'items':['123','321','324124']}
+        </code>
+    </pre>
+    <br>
+    <h3 class="toc-header" id="price"> Price</h3>
+    <p>Parameters:</p>
+    <ul>
+        <li>item_id - ID of item (you can check it in profile page on "act=item&amp;id={item_id}")</li>
+    </ul>
+    <br>
+    <blockquote class="is-success">
+        <p>Returns int of average price from auction<br>If item can't be traded, returns <code>-1</code></p>
+    </blockquote>
+    <blockquote class="is-danger">
+        <p>400: Wrong key data provided<br>Means that there are not all key were provided</p>
+    </blockquote>
+    <h4 class="toc-header" id="example-1"> Example</h4>
+    <pre v-pre="true" class="prismjs line-numbers">
+        <code class="language-">&gt;&gt;&gt; {'action':'price', 'item_id':123}<br>        &lt;&lt;&lt; {'price': 1248}
+        </code>
+    </pre>
+    <p>More functions will appear in future</p>
+
+</body>
+</html>'''
 
 
 if __name__ == '__main__':
