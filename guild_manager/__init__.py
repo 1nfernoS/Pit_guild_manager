@@ -57,7 +57,7 @@ def index():
 @app.route('/api', methods=['POST'])
 def api_access():
     try:
-        data = json.loads(json.loads(request.data))
+        data = json.loads(request.data)
     except JSONDecodeError:
         return make_response("No data provided", 400)
     print(type(data))
