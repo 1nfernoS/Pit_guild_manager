@@ -8,7 +8,7 @@ group_id = os.environ.get('GROUP_ID')
 user_token = os.environ.get('USER_TOKEN')
 creator_id = os.environ.get('CREATOR_ID')
 sentry_url = os.environ.get('SENTRY_URL')
-DB_URI = os.environ.get('DATABASE_URL').replace('postgres://', 'postgresql://', 1)
+DB_URI = os.environ.get('DATABASE_URL', 'postgres://localhost:3306').replace('postgres://', 'postgresql://', 1)
 
 CONVERSATION_ADDING = 2000000000
 PIT_BOT = -182985865
