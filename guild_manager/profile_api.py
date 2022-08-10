@@ -86,7 +86,7 @@ def stats(url_profile):
     for i in range(0, len(t5), 2):
         stat.append(int(t5[i].text))
     res = {'level': stat[0], 'attack': stat[1], 'defence': stat[2],
-           'strength': stat[3], 'agile': stat[4], 'endurance': stat[5],
+           'strength': stat[3], 'agility': stat[4], 'endurance': stat[5],
            'luck': stat[6], 'accuracy': stat[7], 'concentration': stat[8]}
     return res
 
