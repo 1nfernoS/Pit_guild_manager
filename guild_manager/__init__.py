@@ -82,6 +82,7 @@ def api_access():
         res = dict()
         try:
             res['items'] = profile.inv(f'https://vip3.activeusers.ru/app.php?act=user&auth_key={key}&viewer_id={user_id}&group_id=182985865&api_id=7055214')
+            res['stats'] = profile.stats(f'https://vip3.activeusers.ru/app.php?act=user&auth_key={key}&viewer_id={user_id}&group_id=182985865&api_id=7055214')
         except:
             return make_response("Invalid user_key or user_id", 400)
         return json.dumps(res)

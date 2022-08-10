@@ -72,6 +72,25 @@ def price(item):
     return round(sum(price_list) / 20)
 
 
+def stats(url_profile):
+    if 'act=user' not in url_profile:
+        return
+
+    soup = BeautifulSoup(requests.get(url_profile).content, 'html.parser')
+    t1 = soup.body
+    t2 = t1.find_all('div')[id_tag(t1, 'profile-content')]
+    t3 = t2.div.div.div.div
+    t4 = t3.find_all('div')[id_tag(t3, 'portlet-body')]
+    t5 = t4.find_all('span')
+    stat = []
+    for i in range(0, len(t5), 2):
+        stat.append(int(t5[i].text))
+    res = {'level': stat[0], 'attack': stat[1], 'defence': stat[2],
+           'strength': stat[3], 'agile': stat[4], 'endurance': stat[5],
+           'luck': stat[6], 'accuracy': stat[7], 'concentration': stat[8]}
+    return res
+
+
 def inv(url_profile):
     if 'act=user' not in url_profile:
         return
